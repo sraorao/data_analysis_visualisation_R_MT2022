@@ -122,8 +122,29 @@ library(ggrepel)
     geom_point(aes(fill = continent, size = population), shape = 21) +
     scale_size(range = c(2, 40)) +
     scale_x_log10() +
-    scale_y_log10() +
-    geom_label_repel() -> p)
-
+    scale_y_log10() -> p)
+p
 # ...and then use the ggplot2 plot as input for ggplotly()
 ggplotly(p)
+
+# Volcano plot ----
+# BiocManager::install("EnhancedVolcano")
+library(EnhancedVolcano)
+
+EnhancedVolcano(results, lab = results$mir, 
+                x = 'log2FoldChange', y = 'padj')
+
+# phylogenetic trees ----
+library(ggtree)
+library(treeio)
+
+mytree = "(B, (C, D))A;"
+mytree = read.tree(file = textConnection(mytree))
+
+mytree 
+
+ggtree(mytree) +
+  geom_tippoint() +
+  geom_nodepoint()
+
+
